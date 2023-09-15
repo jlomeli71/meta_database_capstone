@@ -7,38 +7,33 @@
 <p>The SQL Commands are grouped into four categories known as DDL, DML, DCL and TCL depending on their functionality, namely the type of operation they’re used to perform.  Let’s explore these commands in greater detail.</p>
 
 
-Data Definition Language (DDL)
-The SQL DDL category provides commands for defining, deleting and modifying tables in a database. Use the following commands in this category.
+<h3>Data Definition Language (DDL)</h3>
 
-CREATE Command
+<p>The SQL DDL category provides commands for defining, deleting and modifying tables in a database. Use the following commands in this category.</p>
 
-Purpose: To create the database or tables inside the database
+<ul>
+<li>CREATE Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To create the database or tables inside the database</li>
+        <li>Syntax to create a table with three columns:</li>
+        <li><code>CREATE TABLE table_name (column_name1 datatype(size), column_name2 datatype(size), column_name3 datatype(size));</code></li>
+    </ul>
+<li>DROP Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To delete a database or a table inside the database.</li>
+        <li>Syntax to drop a table:</li>
+        <li><code>DROP TABLE table_name;</code></li>
+    </ul>
+<li>ALTER Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To change the structure of the tables in the database such as changing the name of a table, adding a primary key to a table, or adding or deleting a column in a table.</li>
+        <li>Syntax to add a column into a table:</li>
+        <li><code>ALTER TABLE table_name ADD (column_name datatype(size));</code></li>
+        <li>Syntax to add a primary key to a table:</li>
+        <li><code>ALTER TABLE table_name ADD primary key (column_name);</code></li>
 
-Syntax to create a table with three columns:
-
-CREATE TABLE table_name (column_name1 datatype(size), column_name2 datatype(size), column_name3 datatype(size));
-
-
-DROP Command 
-
-Purpose: To delete a database or a table inside the database. 
-
-Syntax to drop a table:
-
-DROP TABLE table_name; 
-
-
-ALTER Command 
-
-Purpose: To change the structure of the tables in the database such as changing the name of a table, adding a primary key to a table, or adding or deleting a column in a table.
-
-Syntax to add a column into a table:
-
-            ALTER TABLE table_name ADD (column_name datatype(size)); 
-
-      2. Syntax to add a primary key to a table:
-
-            ALTER TABLE table_name ADD primary key (column_name);
+    </ul>
+</ul>
 
 
 TRUNCATE Command
