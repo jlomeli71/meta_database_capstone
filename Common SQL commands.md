@@ -8,7 +8,6 @@
 
 
 <h3>Data Definition Language (DDL)</h3>
-
 <p>The SQL DDL category provides commands for defining, deleting and modifying tables in a database. Use the following commands in this category.</p>
 
 <ul>
@@ -16,13 +15,13 @@
     <ul>
         <li><strong>Purpose:</strong>To create the database or tables inside the database</li>
         <li>Syntax to create a table with three columns:</li>
-        <li><code>CREATE TABLE table_name (column_name1 datatype(size), column_name2 datatype(size), column_name3 datatype(size));</code></li>
+        <code>CREATE TABLE table_name (column_name1 datatype(size), column_name2 datatype(size), column_name3 datatype(size));</code>
     </ul>
 <li>DROP Command</li>
     <ul>
         <li><strong>Purpose:</strong>To delete a database or a table inside the database.</li>
         <li>Syntax to drop a table:</li>
-        <li><code>DROP TABLE table_name;</code></li>
+        <code>DROP TABLE table_name;</code>
     </ul>
 <li>ALTER Command</li>
     <ul>
@@ -30,79 +29,64 @@
         <li>Syntax to add a column into a table:</li>
         <li><code>ALTER TABLE table_name ADD (column_name datatype(size));</code></li>
         <li>Syntax to add a primary key to a table:</li>
-        <li><code>ALTER TABLE table_name ADD primary key (column_name);</code></li>
-
+        <code>ALTER TABLE table_name ADD primary key (column_name);</code>
+    </ul>
+<li>TRUNCATE Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To remove all records from a table, which will empty the table but not delete the table itself.</li>
+        <li>Syntax to truncate a table:</li>
+        <code>TRUNCATE TABLE table_name;</code>
+    </ul>
+<li>COMMENT Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To add comments to explain or document SQL statements by using double dash (--) at the start of the line. Any text after the double dash will not be executed as part of the SQL statement. These comments are not there to build the database. They are only for your own use.</li>
+        <li>Syntax to COMMENT a line in SQL:</li>
+        <code>--Retrieve all data from a table
+              SELECT * FROM table_name;</code>
     </ul>
 </ul>
 
+<h3>Data Manipulation Language (DML)</h3>
+<p>The SQL DML commands provide the ability to query, delete and update data in the database.  Use the following commands in this category.</p>
 
-TRUNCATE Command
+<ul>
+<li>SELECT Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To retrieve data from tables in the database.</li>
+        <li>Syntax to select data from a table:</li>
+        <code>SELECT * FROM table_name;</code>
+    </ul>
+<li>Insert Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To add records of data into an existing table.</li>
+        <li>Syntax to insert data into three columns in a table:</li>
+        <code>INSERT INTO table_name (column1, column2, column3) VALUES (value1, value2, value3);</code>
+    </ul>
+<li>UPDATE Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To modify or update data contained within a table in the database.</li>
+        <li>Syntax to update data in two columns:</li>
+        <code>UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;</code>
+    </ul>
+<li>DELETE Command</li>
+    <ul>
+        <li><strong>Purpose:</strong>To delete data from a table in the database.</li>
+        <li>Syntax to delete data:</li>
+        <code>DELETE FROM table_name WHERE condition;</code>
+    </ul>
 
-Purpose: To remove all records from a table, which will empty the table but not delete the table itself. 
+<h3>Data Control Language (DCL)</h3>
+<p>You use DCL to deal with the rights and permissions of users of a database system. You can execute SQL commands to perform different types of operations such as create and drop tables. To do this, you need to have user rights set up. This is called user privileges. This category deals with advanced functions or operations in the database. Note that this category can have a generic description of the two main commands. Use the following commands in this category:</p>
 
-Syntax to truncate a table:
+<ul>
+    <li><strong>GRANT</strong> Command to provide the user of the database with the privileges required to allow users to access and manipulate the database.</li>
+    <li><strong>REVOKE</strong> Command to remove permissions from any user.</li>
+</ul>
 
-TRUNCATE TABLE table_name;
+<h3>Transaction Control Language (TCL)</h3>
+<p>The TCL commands are used to manage transactions in the database. These are used to manage the changes made to the data in a table by utilizing the DML commands. It also allows SQL statements to be grouped together into logical transactions. This category deals with advanced functions or operations in a database. Note that this category can have a generic description of the two main commands. Use the following commands in this category:</p>
 
-
-COMMENT Command
-
-Purpose: To add comments to explain or document SQL statements by using double dash (--) at the start of the line. Any text after the double dash will not be executed as part of the SQL statement. These comments are not there to build the database. They are only for your own use.   
-
-Syntax to COMMENT a line in SQL: 
-
---Retrieve all data from a table
-SELECT * FROM table_name; 
-
-
-Data Manipulation Language (DML)
-The SQL DML commands provide the ability to query, delete and update data in the database.  Use the following commands in this category.
-
-SELECT Command
-
-Purpose: To retrieve data from tables in the database. 
-
-Syntax to select data from a table:
-
-SELECT * FROM table_name;
-
-
-INSERT Command
-
-Purpose: To add records of data into an existing table. 
-Syntax to insert data into three columns in a table:
-
-INSERT INTO table_name (column1, column2, column3) VALUES (value1, value2, value3);
-
-
-UPDATE Command 
-
-Purpose: To modify or update data contained within a table in the database. 
-
-Syntax to update data in two columns:
-
-UPDATE table_name SET column1 = value1, column2 = value2 WHERE condition;
-
-
-DELETE Command
-
-Purpose: To delete data from a table in the database.
-
-Syntax to delete data:
-
-DELETE FROM table_name WHERE condition;
-
-
-Data Control Language (DCL)
-You use DCL to deal with the rights and permissions of users of a database system. You can execute SQL commands to perform different types of operations such as create and drop tables. To do this, you need to have user rights set up. This is called user privileges. This category deals with advanced functions or operations in the database. Note that this category can have a generic description of the two main commands. Use the following commands in this category:
-
-GRANT Command to provide the user of the database with the privileges required to allow users to access and manipulate the database.
-
-REVOKE Command to remove permissions from any user.
-
-Transaction Control Language (TCL) 
-The TCL commands are used to manage transactions in the database. These are used to manage the changes made to the data in a table by utilizing the DML commands. It also allows SQL statements to be grouped together into logical transactions. This category deals with advanced functions or operations in a database. Note that this category can have a generic description of the two main commands. Use the following commands in this category:
-
-COMMIT Command to save all the work you have already done in the database. 
-
-ROLLBACK Command to restore a database to the last committed state.
+<ul>
+    <li><strong>COMMIT</strong> Command to save all the work you have already done in the database.</li>
+     <li><strong>ROLLBACK</strong> Command to restore a database to the last committed state.</li>
+<ul>
