@@ -113,3 +113,36 @@ ORDER BY Cost ASC;
 SELECT MenuName
 FROM `menu`
 WHERE MenuId = ANY (SELECT MenuId FROM `orders` WHERE Quantity > 2);
+
+# Exercise: Create optimized queries to manage and analyze data
+
+# Task 1
+# In this first task, Little Lemon need you to create a procedure that displays the maximum ordered quantity in the Orders table. 
+SELECT * FROM `orders`;
+
+CREATE PROCEDURE GetMaxQuantity()  
+SELECT MAX(Quantity) AS 'Max QUantity in Order'
+FROM `orders`;
+
+CALL GetMaxQuantity();
+
+# Task 2
+# In the second task, Little Lemon need you to help them to create a prepared statement called GetOrderDetail. 
+# This prepared statement will help to reduce the parsing time of queries.
+SELECT * FROM `orders`;
+
+PREPARE GetOrderDetail FROM 'SELECT OrderId, Quantity, TotalCost FROM `orders` WHERE OrderId = ?';
+
+SET @id = 1;
+EXECUTE GetOrderDetail USING @id;
+
+# Task 3
+# Your third and final task is to create a stored procedure called CancelOrder. 
+# Little Lemon want to use this stored procedure to delete an order record based on the user input of the order id.
+
+SELECT * FROM `orders`;
+
+CREATE PROCEDURE CancelOrder(IN Id INT)
+DELETE FROM `orders` WHERE OrderId = Id;
+
+CALL CancelOrder(5);
