@@ -23,21 +23,15 @@ DROP TABLE IF EXISTS `bookings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bookings` (
-  `BookingsId` int NOT NULL,
-  `Date` date NOT NULL,
-  `TableId` int NOT NULL,
-  `CustomerId` int NOT NULL,
+  `BookingId` int NOT NULL,
+  `BookingDate` date NOT NULL,
+  `TableNumber` int NOT NULL,
   `StaffId` int NOT NULL,
-  `DeliveryId` int NOT NULL,
-  `OrderId` int NOT NULL,
-  PRIMARY KEY (`BookingsId`),
-  KEY `ToCustomerId_idx` (`CustomerId`),
+  `CustomerId` int NOT NULL,
+  PRIMARY KEY (`BookingId`),
   KEY `ToStaffId_idx` (`StaffId`),
-  KEY `ToDeliveryId_idx` (`DeliveryId`),
-  KEY `ToOrdersId_idx` (`OrderId`),
-  CONSTRAINT `ToCustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `customers` (`CustomerId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ToDeliveryId` FOREIGN KEY (`DeliveryId`) REFERENCES `deliverystatus` (`DeliveryId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ToOrdersId` FOREIGN KEY (`OrderId`) REFERENCES `orders` (`OrderId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `ToCustomerId_idx` (`CustomerId`),
+  CONSTRAINT `ToCustomerIdfromBookings` FOREIGN KEY (`CustomerId`) REFERENCES `customers` (`CustomerId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ToStaffId` FOREIGN KEY (`StaffId`) REFERENCES `staff` (`StaffId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,8 +54,9 @@ DROP TABLE IF EXISTS `customers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customers` (
   `CustomerId` int NOT NULL,
-  `Name` varchar(100) NOT NULL,
-  `Contact` varchar(100) NOT NULL,
+  `FullName` varchar(100) NOT NULL,
+  `ContactNumber` varchar(100) NOT NULL,
+  `EMail` varchar(100) NOT NULL,
   PRIMARY KEY (`CustomerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -83,10 +78,10 @@ DROP TABLE IF EXISTS `deliverystatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `deliverystatus` (
-  `DeliveryId` int NOT NULL,
-  `Date` date NOT NULL,
-  `Status` varchar(45) NOT NULL,
-  PRIMARY KEY (`DeliveryId`)
+  `DeliveryStatusId` int NOT NULL,
+  `DeliveryDate` date NOT NULL,
+  `DeliveryStatus` varchar(100) NOT NULL,
+  PRIMARY KEY (`DeliveryStatusId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -100,30 +95,56 @@ LOCK TABLES `deliverystatus` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `menu`
+-- Table structure for table `menuitems`
 --
 
-DROP TABLE IF EXISTS `menu`;
+DROP TABLE IF EXISTS `menuitems`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `menu` (
-  `MenuId` int NOT NULL,
-  `Cuisine` varchar(100) NOT NULL,
+CREATE TABLE `menuitems` (
+  `MenuItemsId` int NOT NULL,
+  `Course` varchar(100) NOT NULL,
   `Starter` varchar(100) NOT NULL,
-  `Courses` varchar(100) NOT NULL,
-  `Drinks` varchar(100) NOT NULL,
-  `Desserts` varchar(100) NOT NULL,
-  PRIMARY KEY (`MenuId`)
+  `Dessert` varchar(100) NOT NULL,
+  `Drink` varchar(100) NOT NULL,
+  PRIMARY KEY (`MenuItemsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu`
+-- Dumping data for table `menuitems`
 --
 
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+LOCK TABLES `menuitems` WRITE;
+/*!40000 ALTER TABLE `menuitems` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menuitems` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `menus` (
+  `MenuId` int NOT NULL,
+  `Cuisine` varchar(100) NOT NULL,
+  `MenuName` varchar(100) NOT NULL,
+  `MenuItemsId` int NOT NULL,
+  PRIMARY KEY (`MenuId`),
+  KEY `To_MenuItems_Id_idx` (`MenuItemsId`),
+  CONSTRAINT `To_MenuItems_Id` FOREIGN KEY (`MenuItemsId`) REFERENCES `menuitems` (`MenuItemsId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menus`
+--
+
+LOCK TABLES `menus` WRITE;
+/*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -135,13 +156,19 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `OrderId` int NOT NULL,
-  `Date` date NOT NULL,
-  `Quantity` decimal(10,2) NOT NULL,
+  `OrderDate` date NOT NULL,
+  `Quantity` int NOT NULL,
   `TotalCost` decimal(10,2) NOT NULL,
   `MenuId` int NOT NULL,
+  `CustomerId` int NOT NULL,
+  `DeliveryStatusId` int NOT NULL,
   PRIMARY KEY (`OrderId`),
   KEY `ToMenuId_idx` (`MenuId`),
-  CONSTRAINT `ToMenuId` FOREIGN KEY (`MenuId`) REFERENCES `menu` (`MenuId`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `ToDeliveryStatusId_idx` (`DeliveryStatusId`),
+  KEY `ToCustomerId_idx` (`CustomerId`),
+  CONSTRAINT `ToCustomerIdfromOrders` FOREIGN KEY (`CustomerId`) REFERENCES `customers` (`CustomerId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ToDeliveryStatusId` FOREIGN KEY (`DeliveryStatusId`) REFERENCES `deliverystatus` (`DeliveryStatusId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `ToMenuId` FOREIGN KEY (`MenuId`) REFERENCES `menus` (`MenuId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,7 +192,7 @@ CREATE TABLE `staff` (
   `StaffId` int NOT NULL,
   `Role` varchar(100) NOT NULL,
   `Salary` decimal(10,2) NOT NULL,
-  `Name` varchar(100) NOT NULL,
+  `FullName` varchar(100) NOT NULL,
   PRIMARY KEY (`StaffId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -188,4 +215,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-19 11:10:54
+-- Dump completed on 2023-10-03 20:32:53

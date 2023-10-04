@@ -40,8 +40,13 @@ A prepared statement is a database optimization technique used to execute databa
 ### Creating a prepared statement
 A prepared statement in MySQL is essentially a template that you create with a SQL statement that includes certain unspecified values which are used as parameters. 
 ``` 
-PREPARE statement_Name 'INSERT INTO table1 VALUES (?, ?, ?, ?)';
+PREPARE statement_Name FROM 'INSERT INTO table1 VALUES (?, ?, ?, ?)';
 ``` 
+
+``` 
+SET @variable = (10, 12, 13, 14);
+``` 
+
 ### Calling a prepared statement
 To call the prepared statement, you need to use the execute command as follows:
 ``` 

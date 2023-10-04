@@ -1,0 +1,144 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema LittleLemonDB
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema LittleLemonDB
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `LittleLemonDB` DEFAULT CHARACTER SET utf8 ;
+USE `LittleLemonDB` ;
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Staff`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Staff` (
+  `StaffId` INT NOT NULL,
+  `Role` VARCHAR(100) NOT NULL,
+  `Salary` DECIMAL(10,2) NOT NULL,
+  `FullName` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`StaffId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Customers`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Customers` (
+  `CustomerId` INT NOT NULL,
+  `FullName` VARCHAR(100) NOT NULL,
+  `ContactNumber` VARCHAR(100) NOT NULL,
+  `EMail` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`CustomerId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Bookings`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
+  `BookingId` INT NOT NULL,
+  `BookingDate` DATE NOT NULL,
+  `TableNumber` INT NOT NULL,
+  `StaffId` INT NOT NULL,
+  `CustomerId` INT NOT NULL,
+  PRIMARY KEY (`BookingId`),
+  INDEX `ToStaffId_idx` (`StaffId` ASC) VISIBLE,
+  INDEX `ToCustomerId_idx` (`CustomerId` ASC) VISIBLE,
+  CONSTRAINT `ToStaffId`
+    FOREIGN KEY (`StaffId`)
+    REFERENCES `LittleLemonDB`.`Staff` (`StaffId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `ToCustomerIdfromBookings`
+    FOREIGN KEY (`CustomerId`)
+    REFERENCES `LittleLemonDB`.`Customers` (`CustomerId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`MenuItems`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`MenuItems` (
+  `MenuItemsId` INT NOT NULL,
+  `Course` VARCHAR(100) NOT NULL,
+  `Starter` VARCHAR(100) NOT NULL,
+  `Dessert` VARCHAR(100) NOT NULL,
+  `Drink` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`MenuItemsId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Menus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Menus` (
+  `MenuId` INT NOT NULL,
+  `Cuisine` VARCHAR(100) NOT NULL,
+  `MenuName` VARCHAR(100) NOT NULL,
+  `MenuItemsId` INT NOT NULL,
+  PRIMARY KEY (`MenuId`),
+  INDEX `To_MenuItems_Id_idx` (`MenuItemsId` ASC) VISIBLE,
+  CONSTRAINT `To_MenuItems_Id`
+    FOREIGN KEY (`MenuItemsId`)
+    REFERENCES `LittleLemonDB`.`MenuItems` (`MenuItemsId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`DeliveryStatus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`DeliveryStatus` (
+  `DeliveryStatusId` INT NOT NULL,
+  `DeliveryDate` DATE NOT NULL,
+  `DeliveryStatus` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`DeliveryStatusId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `LittleLemonDB`.`Orders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
+  `OrderId` INT NOT NULL,
+  `OrderDate` DATE NOT NULL,
+  `Quantity` INT NOT NULL,
+  `TotalCost` DECIMAL(10,2) NOT NULL,
+  `MenuId` INT NOT NULL,
+  `CustomerId` INT NOT NULL,
+  `DeliveryStatusId` INT NOT NULL,
+  PRIMARY KEY (`OrderId`),
+  INDEX `ToMenuId_idx` (`MenuId` ASC) VISIBLE,
+  INDEX `ToDeliveryStatusId_idx` (`DeliveryStatusId` ASC) VISIBLE,
+  INDEX `ToCustomerId_idx` (`CustomerId` ASC) VISIBLE,
+  CONSTRAINT `ToMenuId`
+    FOREIGN KEY (`MenuId`)
+    REFERENCES `LittleLemonDB`.`Menus` (`MenuId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `ToCustomerIdfromOrders`
+    FOREIGN KEY (`CustomerId`)
+    REFERENCES `LittleLemonDB`.`Customers` (`CustomerId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `ToDeliveryStatusId`
+    FOREIGN KEY (`DeliveryStatusId`)
+    REFERENCES `LittleLemonDB`.`DeliveryStatus` (`DeliveryStatusId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
