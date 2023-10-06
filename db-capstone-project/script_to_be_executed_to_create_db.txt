@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema LittleLemonDB
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `LittleLemonDB` ;
 
 -- -----------------------------------------------------
 -- Schema LittleLemonDB
@@ -17,6 +18,8 @@ USE `LittleLemonDB` ;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Staff`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Staff` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Staff` (
   `StaffId` INT NOT NULL,
   `Role` VARCHAR(100) NOT NULL,
@@ -29,6 +32,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Customers`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Customers` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Customers` (
   `CustomerId` INT NOT NULL,
   `FullName` VARCHAR(100) NOT NULL,
@@ -41,6 +46,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Bookings`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Bookings` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Bookings` (
   `BookingId` INT NOT NULL,
   `BookingDate` DATE NOT NULL,
@@ -66,6 +73,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`MenuItems`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`MenuItems` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`MenuItems` (
   `MenuItemsId` INT NOT NULL,
   `Course` VARCHAR(100) NOT NULL,
@@ -79,6 +88,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Menus`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Menus` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Menus` (
   `MenuId` INT NOT NULL,
   `Cuisine` VARCHAR(100) NOT NULL,
@@ -97,6 +108,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`DeliveryStatus`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`DeliveryStatus` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`DeliveryStatus` (
   `DeliveryStatusId` INT NOT NULL,
   `DeliveryDate` DATE NOT NULL,
@@ -108,6 +121,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `LittleLemonDB`.`Orders`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `LittleLemonDB`.`Orders` ;
+
 CREATE TABLE IF NOT EXISTS `LittleLemonDB`.`Orders` (
   `OrderId` INT NOT NULL,
   `OrderDate` DATE NOT NULL,
@@ -141,4 +156,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
